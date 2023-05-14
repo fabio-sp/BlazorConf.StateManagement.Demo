@@ -1,0 +1,15 @@
+﻿@page "/fluxor-state-products"
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IState<FluxorCartStateStore> FluxorCartState
+@inject IDispatcher Dispatcher
+
+<ProductsList AddItemCallback="AddItem"></ProductsList>
+<CartDisplay Items="FluxorCartState.Value.ItemsInCart.ToList()"></CartDisplay>
+
+@code {
+
+    private void AddItem(Item item)
+    {
+        Dispatcher.Dispatch(new AddItemToCartAction(item));
+    }
+}

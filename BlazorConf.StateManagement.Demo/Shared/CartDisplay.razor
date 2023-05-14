@@ -1,0 +1,35 @@
+﻿<table class="table table-striped px-4">
+    <thead>
+        <tr>
+            <th class="text-center">
+                Title
+            </th>
+            <th class="text-center">
+                Price
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @if (Items == null || !Items.Any())
+    {
+        <tr>
+            <td class="text-center" colspan="2">No items to show</td>
+        </tr>
+    }
+    else
+    {
+        @foreach (var item in Items ?? new List<Item>())
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Price €</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public List<Item>? Items { get; set; }
+}

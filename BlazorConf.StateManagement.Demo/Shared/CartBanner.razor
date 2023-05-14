@@ -1,0 +1,69 @@
+﻿@inject ReactiveStateCartStore ReactiveStateCartStore
+@inject StateContainerServiceCartStore StateContainerServiceCartStore
+@inject IState<FluxorCartStateStore> FluxorCartState
+
+<div class="d-flex justify-content-around">
+    <div>
+        <div>CascadingParameter:</div>
+        <div>
+            Items @cascadingParameterCart.ItemsInCart.Count - Price @cascadingParameterCart.ItemsInCart.Sum(p => p.Price) €
+        </div>
+    </div>
+    <div>
+        <div>StateContainer: </div>
+        <div>Items @StateContainerServiceCartStore.ItemsInCart.Count - Price @StateContainerServiceCartStore.ItemsInCart.Sum(p => p.Price) €</div>
+    </div>
+    <div>
+        <div>ReactiveState:</div>
+        <div>Items @itemsCountInReactiveStore - Price @totalePriceInReactiveStore €</div>
+    </div>
+    <div>
+        <div>FluxorState:</div>
+        <div>Items @FluxorCartState.Value.ItemsInCart.Length - Price @FluxorCartState.Value.ItemsInCart.Sum(i => i.Price) €</div>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public CascadingParameterCartStore cascadingParameterCart { get; set; }
+
+    private IDisposable? subscription;
+
+    private int itemsCountInReactiveStore;
+    private decimal totalePriceInReactiveStore;
+
+    protected override void OnInitialized()
+    {
+        // State Container Service
+        StateContainerServiceCartStore.CartChanged += StateHasChanged;
+
+        // Reactive State
+        subscription = ReactiveStateCartStore
+            .Value
+            .Subscribe(storeState =>
+            {
+                itemsCountInReactiveStore = storeState.Count;
+                totalePriceInReactiveStore = storeState.Sum(p => p.Price);
+                InvokeAsync(StateHasChanged);
+            });
+
+        // Fluxor State
+        FluxorCartState.StateChanged += HandleStateChanged;
+
+        base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        // State Container Service
+        StateContainerServiceCartStore.CartChanged -= StateHasChanged;
+
+        // Reactive State
+        subscription?.Dispose();
+
+        // Fluxor State
+        FluxorCartState.StateChanged -= HandleStateChanged;
+    }
+
+    private void HandleStateChanged(object? sender, EventArgs e) => InvokeAsync(StateHasChanged);
+}

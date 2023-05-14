@@ -1,0 +1,16 @@
+﻿<CascadingValue Value="this">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    public List<Item> ItemsInCart { get; set; } = new();
+
+    public void AddItemToCart(Item item)
+    {
+        ItemsInCart.Add(item);
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,24 @@
+﻿@page "/state-container-service-products"
+@inject StateContainerServiceCartStore StateContainerServiceCartStore
+
+<ProductsList AddItemCallback="AddItem"></ProductsList>
+<CartDisplay Items="StateContainerServiceCartStore.ItemsInCart"></CartDisplay>
+
+@code
+{
+    protected override void OnInitialized()
+    {
+        StateContainerServiceCartStore.CartChanged += StateHasChanged;
+        base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        StateContainerServiceCartStore.CartChanged -= StateHasChanged;
+    }
+
+    private void AddItem(Item item)
+    {
+        StateContainerServiceCartStore.AddItemToCart(item);
+    }
+}

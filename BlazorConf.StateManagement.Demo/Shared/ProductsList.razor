@@ -1,0 +1,42 @@
+﻿<h3>Products</h3>
+
+<div class="row">
+    @foreach (var item in items)
+    {
+        <div class="col-3 py-3">
+            <div class="card">
+                <img class="card-img-top" style="max-width: 200px" src="@item.ThumbnailUrl" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <p class="card-text">@item.Description</p>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between align-items-center">
+                        @item.Price €
+
+                        <button class="btn btn-primary align-self-end" @onclick="() => AddItem(item)">Add to cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+
+    [Parameter]
+    public EventCallback<Item> AddItemCallback { get; set; }
+
+    private readonly List<Item> items = new List<Item>()
+    {
+        new (Guid.NewGuid(), "Microsoft Surface Laptop 4","Style and speed. Stand out on HD video calls backed by Studio Mics. Capture ideas on the vibrant touchscreen.", 1499, "https://i.dummyjson.com/data/products/8/thumbnail.jpg"),
+        new (Guid.NewGuid(), "Samsung Universe 9","Samsung's new variant which goes beyond Galaxy to the Universe", 1249, "https://i.dummyjson.com/data/products/3/thumbnail.jpg"),
+        new (Guid.NewGuid(), "iPhone X","SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...", 899, "https://i.dummyjson.com/data/products/2/thumbnail.jpg"),
+        new (Guid.NewGuid(), "OPPOF19","OPPO F19 is officially announced on April 2021.", 280, "https://i.dummyjson.com/data/products/4/thumbnail.jpg"),
+    };
+
+    private async Task AddItem(Item item)
+    {
+        await AddItemCallback.InvokeAsync(item);
+    }
+}

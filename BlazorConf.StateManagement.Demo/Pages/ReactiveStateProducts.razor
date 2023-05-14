@@ -1,0 +1,32 @@
+﻿@page "/reactive-state-products"
+@inject ReactiveStateCartStore ReactiveStateCartStore
+
+<ProductsList AddItemCallback="AddItem"></ProductsList>
+<CartDisplay Items="itemsInCart"></CartDisplay>
+
+@code
+{
+    private List<Item> itemsInCart = new();
+    private IDisposable? subscription;
+
+    protected override void OnInitialized()
+    {
+        subscription = ReactiveStateCartStore
+            .Value
+            .Subscribe(storeState =>
+            {
+                itemsInCart = storeState;
+                InvokeAsync(StateHasChanged);
+            });
+    }
+
+    public void Dispose()
+    {
+        subscription?.Dispose();
+    }
+
+    private void AddItem(Item item)
+    {
+        ReactiveStateCartStore.AddItem(item);
+    }
+}

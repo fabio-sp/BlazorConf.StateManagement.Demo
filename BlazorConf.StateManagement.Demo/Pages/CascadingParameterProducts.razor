@@ -1,0 +1,12 @@
+﻿@page "/cascading-parameter-products"
+
+<ProductsList AddItemCallback="AddItem"></ProductsList>
+<CartDisplay Items="cascadingParameterCart.ItemsInCart"></CartDisplay>
+
+@code {
+    [CascadingParameter]
+    public CascadingParameterCartStore cascadingParameterCart { get; set; }
+
+    private void AddItem(Item item) => cascadingParameterCart.AddItemToCart(item);
+
+}
