@@ -1,4 +1,5 @@
-﻿@inject ReactiveStateCartStore ReactiveStateCartStore
+﻿@using System.Reactive.Linq
+@inject ReactiveStateCartStore ReactiveStateCartStore
 @inject StateContainerServiceCartStore StateContainerServiceCartStore
 @inject IState<FluxorCartStateStore> FluxorCartState
 
@@ -40,10 +41,11 @@
         // Reactive State
         subscription = ReactiveStateCartStore
             .Value
-            .Subscribe(storeState =>
+            .Select(storeState => (storeState.Count, storeState.Sum(p => p.Price)))
+            .DistinctUntilChanged()
+            .Subscribe(itemsCountAndPrice =>
             {
-                itemsCountInReactiveStore = storeState.Count;
-                totalePriceInReactiveStore = storeState.Sum(p => p.Price);
+                (itemsCountInReactiveStore, totalePriceInReactiveStore) = itemsCountAndPrice;
                 InvokeAsync(StateHasChanged);
             });
 
