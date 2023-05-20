@@ -1,0 +1,11 @@
+﻿@page "/local-state-products"
+
+<ProductsList AddItemCallback="AddItem"></ProductsList>
+<CartDisplay Items="cart"></CartDisplay>
+
+@code
+{
+    private readonly List<Item> cart = new();
+
+    private void AddItem(Item item) => cart.Add(item);
+}

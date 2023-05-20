@@ -3,7 +3,14 @@
 @inject StateContainerServiceCartStore StateContainerServiceCartStore
 @inject IState<FluxorCartStateStore> FluxorCartState
 
-<div class="d-flex justify-content-around">
+<div class="d-flex justify-content-end">
+    <div>Cart:</div>
+    <div>
+        Items 0 - Price 0 €
+    </div>
+</div>
+
+@*<div class="d-flex justify-content-around">
     <div>
         <div>CascadingParameter:</div>
         <div>
@@ -22,9 +29,10 @@
         <div>FluxorState:</div>
         <div>Items @FluxorCartState.Value.ItemsInCart.Length - Price @FluxorCartState.Value.ItemsInCart.Sum(i => i.Price) €</div>
     </div>
-</div>
+</div>*@
 
 @code {
+
     [CascadingParameter]
     public CascadingParameterCartStore cascadingParameterCart { get; set; }
 
