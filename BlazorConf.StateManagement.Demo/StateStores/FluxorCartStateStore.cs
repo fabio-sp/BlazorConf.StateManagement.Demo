@@ -20,7 +20,8 @@ namespace BlazorConf.StateManagement.Demo.StateStores
     public static class Reducers
     {
         [ReducerMethod]
-        public static FluxorCartStateStore ReduceAddItemToCartAction(FluxorCartStateStore cartState, AddItemToCartAction action)
+        public static FluxorCartStateStore ReduceAddItemToCartAction(FluxorCartStateStore cartState
+            , AddItemToCartAction action)
             => new FluxorCartStateStore(cartState.ItemsInCart.Add(action.ItemToAdd));
     }
 

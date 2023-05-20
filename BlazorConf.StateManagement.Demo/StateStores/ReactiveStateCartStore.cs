@@ -20,6 +20,5 @@ namespace BlazorConf.StateManagement.Demo.StateStores
             var nextState = itemsInCart.Value.Append(item).ToList();
             this.itemsInCart.OnNext(nextState);
         }
-
     }
 }
