@@ -6,7 +6,7 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    public List<Item> ItemsInCart { get; set; } = new();
+    public List<Item> ItemsInCart { get; } = new();
 
     public void AddItemToCart(Item item)
     {
@@ -14,3 +14,6 @@
         StateHasChanged();
     }
 }
+
+
+
