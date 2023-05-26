@@ -11,7 +11,7 @@
             Items 0 - Price 0 €
         </div>
     </div>
-    @*<div>
+    <div>
         <div>CascadingParameter:</div>
         <div>
             Items @cascadingParameterCart.ItemsInCart.Count - Price @cascadingParameterCart.ItemsInCart.Sum(p => p.Price) €
@@ -28,7 +28,7 @@
     <div>
         <div>FluxorState:</div>
         <div>Items @FluxorCartState.Value.ItemsInCart.Length - Price @FluxorCartState.Value.ItemsInCart.Sum(i => i.Price) €</div>
-    </div>*@
+    </div>
 </div>
 
 @code {
